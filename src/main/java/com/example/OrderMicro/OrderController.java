@@ -15,10 +15,11 @@ import java.util.List;
 public class OrderController {
 
     private final WebClient webclient;
+    private String WEB_CLIENT_URL = System.getenv("WEB_CLIENT_URL");
 
     @Autowired
     OrderService orderService;
-    
+
     OrderRepository orderRepository;
 
 //    public OrderController(OrderRepository orderRepository, OrderService orderService) {
@@ -27,11 +28,11 @@ public class OrderController {
 //    }
 
     public OrderController(WebClient.Builder webclientBuilder, OrderRepository orderRepository) {
-        this.webclient = webclientBuilder.baseUrl("http://localhost:8081/orders").build();
+        this.webclient = webclientBuilder.baseUrl(WEB_CLIENT_URL).build();
         this.orderRepository = orderRepository;
     }
 
-//    @GetMapping("/{id}")
+//    @GetMapping("users/{id}")
 //    public Mono<OrderResponse> getOrderById(@PathVariable Long id) {
 //
 //        return orderRepository.findById(id).map(order ->
