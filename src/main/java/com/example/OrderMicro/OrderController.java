@@ -13,20 +13,20 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderController {
 
-//    private final WebClient webclient;
+    private final WebClient webclient;
 
     OrderService orderService;
     OrderRepository orderRepository;
 
-    public OrderController(OrderRepository orderRepository, OrderService orderService) {
-        this.orderRepository = orderRepository;
-        this.orderService = orderService;
-    }
-
-//    public OrderController(WebClient.Builder webclientBuilder, OrderRepository orderRepository) {
-//        this.webclient = webclientBuilder.baseUrl("http://localhost:8080/orders").build();
+//    public OrderController(OrderRepository orderRepository, OrderService orderService) {
 //        this.orderRepository = orderRepository;
+//        this.orderService = orderService;
 //    }
+
+    public OrderController(WebClient.Builder webclientBuilder, OrderRepository orderRepository) {
+        this.webclient = webclientBuilder.baseUrl("http://localhost:8081/orders").build();
+        this.orderRepository = orderRepository;
+    }
 
 //    @GetMapping("/{id}")
 //    public Mono<OrderResponse> getOrderById(@PathVariable Long id) {
