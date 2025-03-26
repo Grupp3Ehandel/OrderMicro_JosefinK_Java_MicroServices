@@ -46,16 +46,22 @@ public class OrderController {
     }
 
 
-//    @GetMapping
-//    public ResponseEntity<List<Order>> getAllOrders() {
-//        List<Order> orders = orderRepository.findAll();
-//        if (orders.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-//
-//        } else {
-//            return ResponseEntity.ok(orders);
-//        }
-//    }
+    @GetMapping
+    public ResponseEntity<List<Order>> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        if (orders.isEmpty()) {
+            return ResponseEntity.notFound().build();
+
+        } else {
+            return ResponseEntity.ok(orders);
+        }
+    }
+
+    @DeleteMapping ("/{id}")
+    public void deleteOrder(@PathVariable long id) {
+        orderService.deleteOrder(id);
+    }
+
 }
 
 
