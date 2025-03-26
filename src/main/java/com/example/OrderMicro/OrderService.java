@@ -22,5 +22,17 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
+//    public Order updateOrder(Order order) {
+//        return orderRepository.findById(order.getId()).map(Orders -> Order.SetName)
+//    }
+
+    public Order updateOrder(Order newOrder) {
+        return orderRepository.findById(newOrder.getId()).map(Orders ->{
+            Orders.setProduct(newOrder.getProduct());
+
+            return orderRepository.save(Orders);
+        }).orElse(null);
+    }
+
 
 }

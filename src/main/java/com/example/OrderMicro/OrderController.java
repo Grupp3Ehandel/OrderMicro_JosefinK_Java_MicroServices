@@ -62,6 +62,17 @@ public class OrderController {
         orderService.deleteOrder(id);
     }
 
+    @PutMapping
+    public ResponseEntity<Order> updateOrder(@RequestBody Order order) throws Exception {
+        Order o1 =orderService.updateOrder(order);
+        if(o1 != null
+        ) {
+            return ResponseEntity.accepted().body(order);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
 
 
