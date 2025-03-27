@@ -1,12 +1,13 @@
 package com.example.OrderMicro;
 
-import org.apache.catalina.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import com.example.OrderMicro.User;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderController {
 
+    private User user1;
     private final WebClient webclient;
     private String WEB_CLIENT_URL = System.getenv("WEB_CLIENT_URL");
 
@@ -32,15 +34,27 @@ public class OrderController {
         this.orderRepository = orderRepository;
     }
 
-//    @GetMapping("users/{id}")
+    @GetMapping("/users/{id}")
+    public Mono<OrderResponse> getOrderById(@PathVariable Long id) {
+
+        return orderRepository.findById(id).map(order ->
+            webclient.get()
+                .uri("/users/" + order.getUserId())
+                .retrieve().bodyToMono(User.class)
+                .map(user -> new OrderResponse(order, user)))
+            .orElse(Mono.empty());
+    }
+
+//    @GetMapping("/users/{id}")
 //    public Mono<OrderResponse> getOrderById(@PathVariable Long id) {
-//
-//        return orderRepository.findById(id).map(order ->
-//            webclient.get()
-//                .uri("/users/" + order.getUserId())
-//                .retrieve().bodyToMono(User.class)
-//                .map(user -> new OrderResponse(order, (com.example.OrderMicro.User) user)))
-//            .orElse(Mono.empty());
+//        return orderRepository.findById(id)
+//                .flatMap(order ->
+//                        webclient.get()
+//                                .uri("/users/" + order.getUserId())
+//                                .retrieve()
+//                                .bodyToMono(User.class)
+//                                .map(user -> new OrderResponse(order, user))
+//                );
 //    }
 
     @PostMapping
