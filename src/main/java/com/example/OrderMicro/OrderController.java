@@ -24,10 +24,6 @@ public class OrderController {
 
     OrderRepository orderRepository;
 
-//    public OrderController(OrderRepository orderRepository, OrderService orderService) {
-//        this.orderRepository = orderRepository;
-//        this.orderService = orderService;
-//    }
 
     public OrderController(WebClient.Builder webclientBuilder, OrderRepository orderRepository) {
         this.webclient = webclientBuilder.baseUrl(WEB_CLIENT_URL).build();
@@ -45,25 +41,12 @@ public class OrderController {
             .orElse(Mono.empty());
     }
 
-//    @GetMapping("/users/{id}")
-//    public Mono<OrderResponse> getOrderById(@PathVariable Long id) {
-//        return orderRepository.findById(id)
-//                .flatMap(order ->
-//                        webclient.get()
-//                                .uri("/users/" + order.getUserId())
-//                                .retrieve()
-//                                .bodyToMono(User.class)
-//                                .map(user -> new OrderResponse(order, user))
-//                );
-//    }
-
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         Order o1 = orderService.addOrder(order);
         return ResponseEntity.ok().body(o1);
     }
-
-
+    
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
