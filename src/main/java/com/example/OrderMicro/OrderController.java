@@ -36,7 +36,7 @@ public class OrderController {
         return orderRepository.findById(id).map(order ->
             webclient.get()
                 .uri("/users/" + order.getUserId())
-                .retrieve().bodyToMono(User.class)
+                .retrieve().bodyToMono(Order.class)
                 .map(user -> new OrderResponse(order, user)))
             .orElse(Mono.empty());
     }
