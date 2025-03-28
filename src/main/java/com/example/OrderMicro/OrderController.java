@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderController {
 
-    private User user1;
+
     private final WebClient webclient;
     private String WEB_CLIENT_URL = System.getenv("WEB_CLIENT_URL");
 
@@ -46,7 +46,7 @@ public class OrderController {
         Order o1 = orderService.addOrder(order);
         return ResponseEntity.ok().body(o1);
     }
-    
+
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderRepository.findAll();

@@ -14,7 +14,17 @@ public class Order {
 
     private String product;
 
+    private Long productID;
+
     public Order() {
+    }
+
+    public Long getProductID() {
+        return productID;
+    }
+
+    public void setProductID(Long productID) {
+        this.productID = productID;
     }
 
     public Long getId() {
