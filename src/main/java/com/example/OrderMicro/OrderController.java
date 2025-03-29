@@ -17,7 +17,9 @@ public class OrderController {
 
 
     private final WebClient webclient;
+    private final WebClient webclient2;
     private String WEB_CLIENT_URL = System.getenv("WEB_CLIENT_URL");
+    private String WEB_CLIENT_URL2 = System.getenv("WEB_CLIENT_URL2");
 
     @Autowired
     OrderService orderService;
@@ -25,8 +27,9 @@ public class OrderController {
     OrderRepository orderRepository;
 
 
-    public OrderController(WebClient.Builder webclientBuilder, OrderRepository orderRepository) {
+    public OrderController(WebClient.Builder webclientBuilder, OrderRepository orderRepository, WebClient.Builder webclientBuilder2) {
         this.webclient = webclientBuilder.baseUrl(WEB_CLIENT_URL).build();
+        this.webclient2 = webclientBuilder2.baseUrl(WEB_CLIENT_URL2).build();
         this.orderRepository = orderRepository;
     }
 
@@ -39,6 +42,17 @@ public class OrderController {
                 .retrieve().bodyToMono(User.class)
                 .map(user -> new OrderResponse(order, user)))
             .orElse(Mono.empty());
+    }
+
+    @GetMapping("/products/{id}")
+    public Mono<OrderProductResponse> getOrderById2(@PathVariable Long id) {
+
+        return orderRepository.findById(id).map(order ->
+                        webclient2.get()
+                                .uri("/products/" + order.getProductID())
+                                .retrieve().bodyToMono(Product.class)
+                                .map(product -> new OrderProductResponse(product, order)))
+                .orElse(Mono.empty());
     }
 
     @GetMapping("/count/{productId}")
