@@ -36,9 +36,15 @@ public class OrderController {
         return orderRepository.findById(id).map(order ->
             webclient.get()
                 .uri("/users/" + order.getUserId())
-                .retrieve().bodyToMono(Order.class)
+                .retrieve().bodyToMono(User.class)
                 .map(user -> new OrderResponse(order, user)))
             .orElse(Mono.empty());
+    }
+
+    @GetMapping("/count/{productId}")
+    public ResponseEntity<Integer> getOrderCount(@PathVariable Long productId) {
+        int count = orderService.getOrderCountByProductId(productId);
+        return ResponseEntity.ok(count);
     }
 
     @PostMapping

@@ -22,6 +22,10 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
+    public int getOrderCountByProductId(Long productId) {
+        return orderRepository.countByProductID(productId);
+    }
+
 //    public Order updateOrder(Order order) {
 //        return orderRepository.findById(order.getId()).map(Orders -> Order.SetName)
 //    }
