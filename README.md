@@ -1,6 +1,10 @@
-
+Order microapp kopplad till 2 andra microappar: produkter och användare. 
 URL: http://ordermicro-env.eba-ha662mef.eu-north-1.elasticbeanstalk.com/
 Kommandon att köra i postman:
+
+För att få fram produktdetaljer:
+Get:
+http://ordermicro-env.eba-ha662mef.eu-north-1.elasticbeanstalk.com/orders/products/{orderId}
 
 För att få fram en specifik order med detaljer om vem som beställt den:
 Get:
